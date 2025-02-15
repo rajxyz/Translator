@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
+    "post install": npm install"
   },
 "dependencies": {
   "@google-cloud/text-to-speech": "^4.0.0",
