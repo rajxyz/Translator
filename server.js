@@ -24,7 +24,7 @@ app.post('/detect', async (req, res) => {
 
         res.json(response.data[0]); // Return detected language
     } catch (error) {
-        console.log(error.response?.data || error.message);
+        console.error("Error detecting language:", error.response?.data || error.message);
         res.status(500).json({ error: "Error detecting language" });
     }
 });
@@ -33,11 +33,10 @@ app.post('/detect', async (req, res) => {
 app.post('/translate', async (req, res) => {
     try {  
         const { text, source = "auto", target } = req.body; // Default source to "auto"
-
         if (!text || !target) { // Only check text & target
             return res.status(400).json({ error: "Missing required fields" });
         }
-        
+
         const response = await axios.post('https://libretranslate.com/translate', {
             q: text,
             source: source,
@@ -48,12 +47,11 @@ app.post('/translate', async (req, res) => {
 
         res.json(response.data);
     } catch (error) {
-        console.log(error.response?.data || error.message);
+        console.error("Error translating text:", error.response?.data || error.message);
         res.status(500).json({ error: "Error translating text" });
     }
 });
 
-// **Start Server**
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`✅ Server is running on port ${PORT}`);
 });
