@@ -14,7 +14,9 @@ app.use(bodyParser.json());
 app.post('/detect', async (req, res) => {
     try {
         const { text } = req.body;
-        if (!text) return res.status(400).json({ error: "Text is required" });
+        if (!text) {
+            return res.status(400).json({ error: "Text is required" });
+        }
 
         const response = await axios.post('https://libretranslate.com/detect', {
             q: text
