@@ -31,10 +31,11 @@ app.post('/detect', async (req, res) => {
 
 // **Translate Text API**
 app.post('/translate', async (req, res) => {
-    try {
-        const { text, source, target } = req.body;
-        if (!text || !source || !target) {
-            return res.status(400).json({ error: "Missing required fields" });
+    try {  const { text, source = "auto", target } = req.body; // Default source to "auto"
+if (!text || !target) { // Only check text & target
+    return res.status(400).json({ error: "Missing required fields" });
+}
+        
         }
 
         const response = await axios.post('https://libretranslate.com/translate', {
