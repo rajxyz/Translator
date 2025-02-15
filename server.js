@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
-app.use(cors());
+app.use(cors({ origin: '*' })); // Allow all origins (Change '*' to your frontend URL later)
 app.use(bodyParser.json());
 
 // **Detect Language API**
@@ -24,6 +24,7 @@ app.post('/detect', async (req, res) => {
 
         res.json(response.data[0]); // Return detected language
     } catch (error) {
+        console.log(error.response?.data || error.message);
         res.status(500).json({ error: "Error detecting language" });
     }
 });
@@ -46,6 +47,7 @@ app.post('/translate', async (req, res) => {
 
         res.json(response.data);
     } catch (error) {
+        console.log(error.response?.data || error.message);
         res.status(500).json({ error: "Error translating text" });
     }
 });
