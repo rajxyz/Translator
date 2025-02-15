@@ -7,13 +7,16 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 10000;
 
+// Middleware
 app.use(cors({ origin: '*' })); // Allow all origins (Change '*' to your frontend URL later)
-app.use(bodyParser.json());
+app.use(express.json()); // Ensure JSON body parsing
 
 // **Detect Language API**
 app.post('/detect', async (req, res) => {
     try {
+        console.log("Detect Request Body:", req.body);
         const { text } = req.body;
+
         if (!text) {
             return res.status(400).json({ error: "Text is required" });
         }
@@ -34,7 +37,9 @@ app.post('/detect', async (req, res) => {
 // **Translate Text API**
 app.post('/translate', async (req, res) => {
     try {  
+        console.log("Translate Request Body:", req.body); // Log request body
         const { text, source = "auto", target } = req.body;
+
         if (!text || !target) {
             return res.status(400).json({ error: "Missing required fields" });
         }
@@ -54,6 +59,7 @@ app.post('/translate', async (req, res) => {
     }
 });
 
+// Start the server
 app.listen(PORT, () => {
     console.log(`✅ Server is running on port ${PORT}`);
 });
